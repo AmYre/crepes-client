@@ -18,6 +18,7 @@ export default function Home({ data }) {
 				<img src='/logo.png' className='absolute left-0 top-0 w-40 pl-4' />
 				<Cart />
 				<section className='h-full mt-52'>
+					<p>Splitted Out</p>
 					<Menu data={data} />
 				</section>
 				<BottomBar />
