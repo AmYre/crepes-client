@@ -3,7 +3,7 @@ import Cart from '../components/Cart.js';
 import Menu from '../components/Menu';
 import BottomBar from '../components/BottomBar';
 
-export default function Home({ data }) {
+export default function Home() {
 	return (
 		<>
 			<Head>
@@ -17,7 +17,6 @@ export default function Home({ data }) {
 				<img src='/logo.png' className='absolute left-0 top-0 w-40 pl-4' />
 				<Cart />
 				<section className='h-full mt-52'>
-					<p>Splitted Out</p>
 					<Menu />
 				</section>
 				<BottomBar />

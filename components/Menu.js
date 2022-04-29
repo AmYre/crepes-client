@@ -68,9 +68,9 @@ const Menu = () => {
 
 	return (
 		<>
-			{crepes ? (
+			{crepes.crepes?.data ? (
 				<div>
-					{crepes?.crepes.data.map(
+					{crepes.crepes.data.map(
 						(
 							{
 								attributes: {
@@ -86,7 +86,7 @@ const Menu = () => {
 							},
 							i
 						) => (
-							<Crepe name={name} price={price} time={time} url={url} width={width} height={height} key={i} />
+							<Crepe name={name} price={price} time={time} url={url} />
 						)
 					)}
 				</div>

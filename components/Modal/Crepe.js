@@ -5,13 +5,11 @@ import { useMenuList } from '../../hooks/queries/useMenuList';
 import SupplementDetail from '../MenuList/SupplementDetail';
 import { PlusIcon } from '@heroicons/react/solid';
 
-const Crepe = ({ name, price, url, time, width, height, i }) => {
+const Crepe = ({ name, price, url, time }) => {
 	const [modal, setModal] = useState(false);
 	const [inputQuantity, setInputQuantity] = useState(1);
 
 	const { productsList, setProductsList, firstStep, setFirstStep, quantity, setQuantity, randomNumber, theme, setTheme, supplementList, setSupplementList, preparationTime, setPreparationTime, minutes, setMinutes, seconds, setSeconds, payed, setPayed, crepes, setCrepes } = useGlobalContext();
-
-	const { data } = useMenuList();
 
 	const totalSupplement = Number(supplementList.reduce((a, b) => a + b.price, 0).toFixed(2));
 
@@ -70,7 +68,7 @@ const Crepe = ({ name, price, url, time, width, height, i }) => {
 											product_id: randomNumber,
 										},
 									]);
-									setPreparationTime([...preparationTime, Number(preparation_time.slice(4, 5))]);
+									setPreparationTime([...preparationTime, Number(time.slice(4, 5))]);
 									setModal(!modal);
 									setSupplementList([]);
 								}}>
