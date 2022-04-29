@@ -2,7 +2,6 @@ import Head from 'next/head';
 import Cart from '../components/Cart.js';
 import Menu from '../components/Menu';
 import BottomBar from '../components/BottomBar';
-import { ApolloClient, gql, InMemoryCache } from '@apollo/client';
 
 export default function Home({ data }) {
 	return (
@@ -19,57 +18,10 @@ export default function Home({ data }) {
 				<Cart />
 				<section className='h-full mt-52'>
 					<p>Splitted Out</p>
-					<Menu data={data} />
+					<Menu />
 				</section>
 				<BottomBar />
 			</main>
 		</>
 	);
-}
-
-export async function getServerSideProps(context) {
-	const client = new ApolloClient({
-		uri: 'https://gentle-wave-45799.herokuapp.com/graphql',
-		cache: new InMemoryCache(),
-	});
-
-	const { data } = await client.query({
-		query: gql`
-			query {
-				crepes {
-					data {
-						attributes {
-							name
-							price
-							time
-							image {
-								data {
-									attributes {
-										url
-										width
-										height
-									}
-								}
-							}
-						}
-					}
-				}
-				supplements {
-					data {
-						id
-						attributes {
-							name
-							price
-						}
-					}
-				}
-			}
-		`,
-	});
-
-	return {
-		props: {
-			data: data,
-		},
-	};
 }

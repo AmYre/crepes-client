@@ -1,12 +1,14 @@
-import { useMenuList } from '../../hooks/queries/useMenuList';
+import { useGlobalContext } from '../../context/Context';
 import Crepe from '../Modal/Crepe';
 
-const CrepesSucrees = ({ data }) => {
+const CrepesSucrees = () => {
+	const { productsList, setProductsList, firstStep, setFirstStep, quantity, setQuantity, randomNumber, theme, setTheme, supplementList, setSupplementList, preparationTime, setPreparationTime, minutes, setMinutes, seconds, setSeconds, payed, setPayed, crepes, setCrepes } = useGlobalContext();
+
 	return (
 		<div>
-			<h2 className='text-center text-xl font-bold mb-3'>Crepes Sucrée</h2>
+			<h2 className='text-center text-xl font-bold mb-3'>Crepes</h2>
 			<div>
-				{data?.crepes.data.map(
+				{crepes?.crepes.data.map(
 					(
 						{
 							attributes: {

@@ -9,7 +9,7 @@ const Crepe = ({ name, price, url, time, width, height, i }) => {
 	const [modal, setModal] = useState(false);
 	const [inputQuantity, setInputQuantity] = useState(1);
 
-	const { productsList, setProductsList, randomNumber, supplementList, setSupplementList, preparationTime, setPreparationTime } = useGlobalContext();
+	const { productsList, setProductsList, firstStep, setFirstStep, quantity, setQuantity, randomNumber, theme, setTheme, supplementList, setSupplementList, preparationTime, setPreparationTime, minutes, setMinutes, seconds, setSeconds, payed, setPayed, crepes, setCrepes } = useGlobalContext();
 
 	const { data } = useMenuList();
 
@@ -52,7 +52,7 @@ const Crepe = ({ name, price, url, time, width, height, i }) => {
 							</span> */}
 
 						<div className='h-36 w-full bg-white dark:bg-gray-600 p-3 mt-2 mb-5 shadow border rounded ring-blue-600 outline-none focus:ring-2 overflow-hidden overflow-y-scroll'>
-							{data?.supplements.data.map(({ id, attributes: { name, price } }, index) => (
+							{crepes?.supplements.data.map(({ id, attributes: { name, price } }, index) => (
 								<SupplementDetail name={name} price={price} index={index} key={index} id={id} modal={modal} />
 							))}
 						</div>

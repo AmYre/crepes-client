@@ -8,12 +8,11 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { TrashIcon } from '@heroicons/react/solid';
 import Navbar from '../components/Navbar/Navbar';
-import { ApolloClient, gql, InMemoryCache } from '@apollo/client';
 
-const Menu = ({ data }) => {
+const Menu = () => {
 	const router = useRouter();
 
-	const { productsList, setProductsList, theme, firstStep, setFirstStep, randomNumber, supplementList, preparationTime, setPreparationTime } = useGlobalContext();
+	const { productsList, setProductsList, firstStep, setFirstStep, quantity, setQuantity, randomNumber, theme, setTheme, supplementList, setSupplementList, preparationTime, setPreparationTime, minutes, setMinutes, seconds, setSeconds, payed, setPayed, crepes, setCrepes } = useGlobalContext();
 
 	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
 
@@ -64,7 +63,7 @@ const Menu = ({ data }) => {
 			{firstStep || router.query.id ? (
 				<div className='flex flex-col justify-between'>
 					<main>
-						<MenuList data={data} />
+						<MenuList />
 					</main>
 					<section>
 						<div className='flex flex-col justify-center mx-5 h-96 bg-gray-800 rounded text-gray-50 shadow gap-8 px-10'>
@@ -125,7 +124,7 @@ const Menu = ({ data }) => {
 							});
 							// refetch(); // removed on the 12/3
 						}}>
-						Choisir une crépes
+						Choisir une crêpe
 					</button>
 				</div>
 			)}
@@ -134,50 +133,3 @@ const Menu = ({ data }) => {
 };
 
 export default Menu;
-
-export async function getServerSideProps(context) {
-	const client = new ApolloClient({
-		uri: `${process.env.HOST_STRAPI}`,
-		cache: new InMemoryCache(),
-	});
-
-	const { data } = await client.query({
-		query: gql`
-			query {
-				crepes {
-					data {
-						attributes {
-							price
-							name
-							time
-							image {
-								data {
-									attributes {
-										url
-										width
-										height
-									}
-								}
-							}
-						}
-					}
-				}
-				supplements {
-					data {
-						id
-						attributes {
-							name
-							price
-						}
-					}
-				}
-			}
-		`,
-	});
-
-	return {
-		props: {
-			data: data,
-		},
-	};
-}

@@ -5,10 +5,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Crepe from './Modal/Crepe';
 
-const Menu = ({ data }) => {
+const Menu = () => {
 	const router = useRouter();
 
-	const { productsList, setProductsList, theme, firstStep, setFirstStep, randomNumber, supplementList, preparationTime, setPreparationTime } = useGlobalContext();
+	const { productsList, setProductsList, firstStep, setFirstStep, quantity, setQuantity, randomNumber, theme, setTheme, supplementList, setSupplementList, preparationTime, setPreparationTime, minutes, setMinutes, seconds, setSeconds, payed, setPayed, crepes, setCrepes } = useGlobalContext();
 
 	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
 
@@ -68,9 +68,9 @@ const Menu = ({ data }) => {
 
 	return (
 		<>
-			{data ? (
+			{crepes ? (
 				<div>
-					{data?.crepes.data.map(
+					{crepes?.crepes.data.map(
 						(
 							{
 								attributes: {
