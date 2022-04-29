@@ -143,32 +143,13 @@ export async function getServerSideProps(context) {
 
 	const { data } = await client.query({
 		query: gql`
-			query Foods {
-				crepesSucrees {
+			query {
+				crepes {
 					data {
 						attributes {
-							category_name
 							price
-							product_name
-							preparation_time
-							image {
-								data {
-									attributes {
-										url
-										width
-										height
-									}
-								}
-							}
-						}
-					}
-				}
-				boissons {
-					data {
-						attributes {
-							category_name
-							product_name
-							price
+							name
+							time
 							image {
 								data {
 									attributes {

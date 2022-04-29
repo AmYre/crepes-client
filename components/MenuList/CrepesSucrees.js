@@ -6,14 +6,13 @@ const CrepesSucrees = ({ data }) => {
 		<div>
 			<h2 className='text-center text-xl font-bold mb-3'>Crepes Sucrée</h2>
 			<div>
-				{data?.crepesSucrees.data.map(
+				{data?.crepes.data.map(
 					(
 						{
 							attributes: {
-								product_name,
+								name,
 								price,
-								category_name,
-								preparation_time,
+								time,
 								image: {
 									data: {
 										attributes: { url, width, height },
@@ -23,7 +22,7 @@ const CrepesSucrees = ({ data }) => {
 						},
 						i
 					) => (
-						<Crepe product_name={product_name} price={price} preparation_time={preparation_time} category_name={category_name} url={url} width={width} height={height} key={i} />
+						<Crepe product_name={name} price={price} preparation_time={time} url={url} width={width} height={height} key={i} />
 					)
 				)}
 			</div>

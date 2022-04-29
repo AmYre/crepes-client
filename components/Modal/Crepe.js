@@ -5,7 +5,7 @@ import { useMenuList } from '../../hooks/queries/useMenuList';
 import SupplementDetail from '../MenuList/SupplementDetail';
 import { PlusIcon } from '@heroicons/react/solid';
 
-const Crepe = ({ product_name, price, category_name, url, preparation_time, width, height, i }) => {
+const Crepe = ({ name, price, url, time, width, height, i }) => {
 	const [modal, setModal] = useState(false);
 	const [inputQuantity, setInputQuantity] = useState(1);
 
@@ -22,9 +22,9 @@ const Crepe = ({ product_name, price, category_name, url, preparation_time, widt
 	return (
 		<>
 			<div className={`flex bg-white p-4 mt-8 mx-8 rounded shadow`}>
-				<Image loader={myLoader} src={url} width={100} height={100} alt={product_name} className='object-contain' />
+				<Image loader={myLoader} src={url} width={100} height={100} alt={name} className='object-contain' />
 				<div className='flex flex-col justify-center'>
-					<div className='text-xl font-bold text-gray-800'>{product_name}</div>
+					<div className='text-xl font-bold text-gray-800'>{name}</div>
 					<div className='text-md font-light text-gray-800'>{price.toFixed(2)} € </div>
 					<div className='flex flex-row gap-4 text-xs text-gray-80'>
 						<p>0.70€ par supplément</p>
@@ -44,8 +44,8 @@ const Crepe = ({ product_name, price, category_name, url, preparation_time, widt
 			<div className={`${modal ? 'bg-white' : 'hidden '}`}>
 				<div className='bg-white py-0 rounded w-full sm:w-2/3 md:w-1/2'>
 					<div className='py-10 px-3 bg-gray-100 dark:bg-gray-700'>
-						<Image loader={myLoader} src={url} layout='responsive' width={370} height={180} alt={product_name} className='object-contain' />
-						<p className='text-lg md:text-xl font-bold mt-5 uppercase m-7'>Supplément pour {product_name}</p>
+						<Image loader={myLoader} src={url} layout='responsive' width={370} height={180} alt={name} className='object-contain' />
+						<p className='text-lg md:text-xl font-bold mt-5 uppercase m-7'>Supplément pour {name}</p>
 
 						{/* <span className="text-xl font-bold mt-5">
 								Supplement
@@ -63,8 +63,7 @@ const Crepe = ({ product_name, price, category_name, url, preparation_time, widt
 									setProductsList([
 										...productsList,
 										{
-											product_name: product_name,
-											category_name: category_name,
+											product_name: name,
 											price: price,
 											supplement_list: supplementList,
 											quantity: Number(inputQuantity),

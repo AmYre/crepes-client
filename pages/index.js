@@ -29,38 +29,19 @@ export default function Home({ data }) {
 
 export async function getServerSideProps(context) {
 	const client = new ApolloClient({
-		uri: `${process.env.HOST_STRAPI}`,
+		uri: 'https://gentle-wave-45799.herokuapp.com/graphql',
 		cache: new InMemoryCache(),
 	});
 
 	const { data } = await client.query({
 		query: gql`
-			query Foods {
-				crepesSucrees {
+			query {
+				crepes {
 					data {
 						attributes {
-							category_name
+							name
 							price
-							product_name
-							preparation_time
-							image {
-								data {
-									attributes {
-										url
-										width
-										height
-									}
-								}
-							}
-						}
-					}
-				}
-				boissons {
-					data {
-						attributes {
-							category_name
-							product_name
-							price
+							time
 							image {
 								data {
 									attributes {

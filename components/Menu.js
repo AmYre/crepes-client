@@ -1,14 +1,8 @@
 import { useGlobalContext } from '../context/Context';
-import MenuList from './MenuList/MenuList ';
-import Orders from './Orders';
 import { useMutation } from '@apollo/client';
-import { useMenuList } from '../hooks/queries/useMenuList';
 import { CREATE_ORDER } from '../hooks/mutations/useCreateOrder';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { TrashIcon } from '@heroicons/react/solid';
-import Navbar from './Navbar/Navbar';
-import { ApolloClient, gql, InMemoryCache } from '@apollo/client';
 import Crepe from './Modal/Crepe';
 
 const Menu = ({ data }) => {
@@ -76,14 +70,13 @@ const Menu = ({ data }) => {
 		<>
 			{data ? (
 				<div>
-					{data?.crepesSucrees.data.map(
+					{data?.crepes.data.map(
 						(
 							{
 								attributes: {
-									product_name,
+									name,
 									price,
-									category_name,
-									preparation_time,
+									time,
 									image: {
 										data: {
 											attributes: { url, width, height },
@@ -93,7 +86,7 @@ const Menu = ({ data }) => {
 							},
 							i
 						) => (
-							<Crepe product_name={product_name} price={price} preparation_time={preparation_time} category_name={category_name} url={url} width={width} height={height} key={i} />
+							<Crepe name={name} price={price} time={time} url={url} width={width} height={height} key={i} />
 						)
 					)}
 				</div>

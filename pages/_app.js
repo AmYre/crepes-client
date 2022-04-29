@@ -1,6 +1,4 @@
-import Head from 'next/head';
 import { ThemeProvider } from 'next-themes';
-// import Navbar from '../components/navbar';
 import { AppProvider } from '../context/Context';
 import 'tailwindcss/tailwind.css';
 import { ApolloProvider } from '@apollo/client';
@@ -13,7 +11,7 @@ function MyApp({ Component, pageProps }) {
 		<AppProvider>
 			<ApolloProvider client={client()}>
 				<SessionProvider>
-					<ThemeProvider enableSystem={true} attribute="class">
+					<ThemeProvider enableSystem={true} attribute='class'>
 						<Component {...pageProps} />
 					</ThemeProvider>
 				</SessionProvider>
