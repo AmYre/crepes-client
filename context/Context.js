@@ -12,7 +12,6 @@ const AppProvider = ({ children }) => {
 	const [theme, setTheme] = useState(false);
 	const [payed, setPayed] = useState(false);
 	const [supplementList, setSupplementList] = useState([]);
-	const [preparationTime, setPreparationTime] = useState([]);
 	const [minutes, setMinutes] = useState(0);
 	const [seconds, setSeconds] = useState(0);
 
@@ -36,7 +35,6 @@ const AppProvider = ({ children }) => {
 								attributes {
 									name
 									price
-									time
 									image {
 										data {
 											attributes {
@@ -81,8 +79,6 @@ const AppProvider = ({ children }) => {
 				setTheme,
 				supplementList,
 				setSupplementList,
-				preparationTime,
-				setPreparationTime,
 				minutes,
 				setMinutes,
 				seconds,

@@ -10,7 +10,7 @@ import { PlusIcon } from '@heroicons/react/solid';
 const Crepes = () => {
 	const router = useRouter();
 
-	const { productsList, setProductsList, firstStep, setFirstStep, quantity, setQuantity, randomNumber, theme, setTheme, supplementList, setSupplementList, preparationTime, setPreparationTime, minutes, setMinutes, seconds, setSeconds, payed, setPayed, crepes, setCrepes } = useGlobalContext();
+	const { productsList, setProductsList, firstStep, setFirstStep, quantity, setQuantity, randomNumber, theme, setTheme, supplementList, setSupplementList, minutes, setMinutes, seconds, setSeconds, payed, setPayed, crepes, setCrepes } = useGlobalContext();
 
 	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
 	// TODO : change the way to create Order when there is  actually an order !

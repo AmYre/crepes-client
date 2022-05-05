@@ -7,7 +7,6 @@ const GET_PRODUCTS = gql`
 				attributes {
 					price
 					name
-					time
 					image {
 						data {
 							attributes {
