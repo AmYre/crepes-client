@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Cart from '../components/Cart.js';
-import Menu from '../components/Menu';
+import Crepes from '../components/Crepes';
 import BottomBar from '../components/BottomBar';
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
 				<img src='/logo.png' className='absolute left-0 top-0 w-40 pl-4' />
 				<Cart />
 				<section className='h-full mt-52'>
-					<Menu />
+					<Crepes />
 				</section>
 				<BottomBar />
 			</main>
