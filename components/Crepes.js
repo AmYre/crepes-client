@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Supplements from './Supplements';
-import { PlusIcon } from '@heroicons/react/solid';
+import { PencilAltIcon } from '@heroicons/react/solid';
 
 const Crepes = () => {
 	const router = useRouter();
@@ -88,40 +88,45 @@ const Crepes = () => {
 							i
 						) => (
 							<>
-								<div className={`flex bg-white p-4 mt-8 mx-8 rounded shadow`}>
-									<Image loader={myLoader} src={url} width={100} height={100} alt={name} className='object-contain' />
-									<div className='flex flex-col justify-center'>
-										<div className='text-xl font-bold text-gray-800'>{name}</div>
-										<div className='text-md font-light text-gray-800'>{price.toFixed(2)} € </div>
-										<div className='flex flex-row gap-4 text-xs text-gray-80'>
-											<p className='text-black'>0.70€ par supplément</p>
-											<PlusIcon
-												onClick={() => {
-													setModal(!modal);
-												}}
-												className='w-8 h-8 cursor-pointer bg-red-500'
-											/>
+								<div className={`flex flex-row justify-between bg-white p-4 mt-8 mx-4 rounded shadow`}>
+									<Image loader={myLoader} src={url} width={80} height={80} alt={name} className='object-contain' />
+									<div className='flex-col'>
+										<div className='flex flex-row  justify-between'>
+											<div className='text-xl font-bold text-gray-800'>{name}</div>
+											<div className='flex flex-row justify-between bg-primary rounded-full px-2 w-22'>
+												<p
+													className='font-bold text-gray-800 text-2xl px-1'
+													onClick={() => {
+														delCrepe(name);
+													}}>
+													-
+												</p>
+												<p className='bg-white flex items-center justify-center font-bold text-gray-800 text-xl rounded-full shadow-md w-8'>{productsList && productsList.filter((crepe) => crepe.name == name).length}</p>
+												<p
+													className='font-bold text-gray-800 text-2xl px-1'
+													onClick={() => {
+														addCrepe(name, price);
+													}}>
+													+
+												</p>
+											</div>
 										</div>
-									</div>
-									<div className='flex flex-col text-gray-800'>
-										<div className='flex flex-row'>
-											<p
-												onClick={() => {
-													delCrepe(name);
-												}}>
-												-
-											</p>
-											<p>{productsList && productsList.filter((crepe) => crepe.name == name).length}</p>
-											<p
-												onClick={() => {
-													addCrepe(name, price);
-												}}>
-												+
-											</p>
+										<div className='text-md font-medium text-gray-800'>{price.toFixed(2)} € </div>
+										<div className='flex flex-row text-gray-800 justify-between'>
+											<div className='flex flex-row text-xs text-gray-80 items-center mr-3 gap-0'>
+												<p className='text-black'>0.70€ par suppl.</p>
+												<PencilAltIcon
+													onClick={() => {
+														setModal(!modal);
+													}}
+													className='w-8 h-8 cursor-pointer p-1 text-primary rounded-full shadow-md'
+												/>
+											</div>
+											<div className='text-md font-semibold flex items-center text-gray-800'> 15,50€</div>
 										</div>
-										<div> Prix ss-total</div>
 									</div>
 								</div>
+
 								<div className={`${modal ? 'bg-white' : 'hidden '}`}>
 									<div className='bg-white py-0 rounded w-full sm:w-2/3 md:w-1/2'>
 										<div className='py-10 px-3 bg-gray-100 dark:bg-gray-700'>

@@ -10,6 +10,10 @@ module.exports = {
 			backgroundImage: {
 				home: "url('/bg.jpg')",
 			},
+			colors: {
+				primary: '#DBA72C',
+				secondary: '#C94424',
+			},
 		},
 	},
 	plugins: [],
