@@ -10,3 +10,8 @@
 		font-family: Inter, system-ui, sans-serif;
 	}
 }
+
+.mantine-Tabs-tabActive {
+	border-bottom: 2px solid #f3d654 !important;
+	color: #dba72c !important;
+}

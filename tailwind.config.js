@@ -14,6 +14,13 @@ module.exports = {
 				primary: '#DBA72C',
 				secondary: '#C94424',
 			},
+			boxShadow: {
+				modal: '0px 0px 30px 5px rgba(0, 0, 0, 0.2)',
+			},
+			spacing: {
+				95: '95vh',
+				115: '115%',
+			},
 		},
 	},
 	plugins: [],
