@@ -53,6 +53,15 @@ const AppProvider = ({ children }) => {
 								attributes {
 									name
 									price
+									img {
+										data {
+											attributes {
+												url
+												width
+												height
+											}
+										}
+									}
 								}
 							}
 						}
