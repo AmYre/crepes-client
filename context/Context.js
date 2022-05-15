@@ -4,14 +4,11 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-	const [crepes, setCrepes] = useState({});
-	const [firstStep, setFirstStep] = useState(false);
-	// const [secondStep, setSecondStep] = useState(false);
-	const [productsList, setProductsList] = useState([]);
+	const [crepes, setCrepes] = useState();
+	const [supplements, setSupplements] = useState();
 	const [quantity, setQuantity] = useState(1);
 	const [theme, setTheme] = useState(false);
 	const [payed, setPayed] = useState(false);
-	const [supplementList, setSupplementList] = useState([]);
 	const [minutes, setMinutes] = useState(0);
 	const [seconds, setSeconds] = useState(0);
 
@@ -68,7 +65,9 @@ const AppProvider = ({ children }) => {
 					}
 				`,
 			});
-			setCrepes(data);
+
+			setCrepes(data.crepes.data);
+			setSupplements(data.supplements.data);
 		}
 
 		getCrepes();
@@ -77,25 +76,21 @@ const AppProvider = ({ children }) => {
 	return (
 		<AppContext.Provider
 			value={{
-				productsList,
-				setProductsList,
-				firstStep,
-				setFirstStep,
+				crepes,
+				setCrepes,
+				supplements,
+				setSupplements,
 				quantity,
 				setQuantity,
 				randomNumber,
 				theme,
 				setTheme,
-				supplementList,
-				setSupplementList,
 				minutes,
 				setMinutes,
 				seconds,
 				setSeconds,
 				payed,
 				setPayed,
-				crepes,
-				setCrepes,
 			}}>
 			{children}
 		</AppContext.Provider>

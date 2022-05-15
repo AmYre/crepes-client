@@ -7,30 +7,35 @@ import Image from 'next/image';
 import { Switch, Tabs } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { PencilAltIcon, PlusIcon, TrashIcon, CheckIcon } from '@heroicons/react/solid';
+import { useForm } from 'react-hook-form';
+import Supplements from './Supplements';
 
 const Crepes = () => {
 	const router = useRouter();
-	const { productsList, setProductsList, firstStep, setFirstStep, quantity, setQuantity, randomNumber, theme, setTheme, supplementList, setSupplementList, minutes, setMinutes, seconds, setSeconds, payed, setPayed, crepes, setCrepes } = useGlobalContext();
+	const { crepes, setCrepes, supplements, setSupplements, quantity, setQuantity, randomNumber, theme, setTheme, minutes, setMinutes, seconds, setSeconds, payed, setPayed } = useGlobalContext();
 	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
-	const totalSupplement = Number(supplementList.reduce((a, b) => a + b.price, 0).toFixed(2));
+	const totalSupplement = Number(supplements?.reduce((a, b) => a + b.price, 0).toFixed(2));
 
 	const myLoader = ({ src, width, quality }) => {
 		return `${src}?w=${width}&q=${quality || 75}`;
 	};
 
 	const removeProduct = (id) => {
-		const removedProduct = supplementList.filter((product) => product.id_list !== id);
-		setSupplementList(removedProduct);
+		const removedProduct = supplements?.filter((product) => product.id_list !== id);
+		setSupplements(removedProduct);
 	};
 
-	const [checked, setChecked] = useState(false);
+	const [order, setOrder] = useState([]);
+
+	const [checked, setChecked] = useState(new Array(100).fill(false));
 	const [modal, setModal] = useState(false);
 	const [modalTitle, setModalTitle] = useState();
 	const [modalImg, setModalImg] = useState();
 	const [totalNutella, setTotalNutella] = useState();
 	const [currentCrepe, setCurrentCrepe] = useState();
+
 	const openModal = (name, url) => {
-		if (productsList.filter((crepe) => crepe.name == name).length > 0) {
+		if (order.filter((crepe) => crepe.name == name).length > 0) {
 			setModal(!modal);
 			setModalTitle(name);
 			setModalImg(url);
@@ -38,26 +43,21 @@ const Crepes = () => {
 		} else return;
 	};
 
-	const toggleSuppl = (name) => {
-		console.log(name + 'OOO' + checked);
-	};
-
-	const addCrepe = (name, price, url) => {
-		setProductsList([
-			...productsList,
+	const addCrepe = (name, price) => {
+		setOrder([
+			...order,
 			{
-				uid: name + productsList.filter((crepe) => crepe.name == name).length,
+				uid: name + order.filter((crepe) => crepe.name == name).length,
 				name,
 				price,
-				url,
-				supplement_list: [],
+				suppls: [],
 			},
 		]);
 	};
 
 	const delCrepe = (name) => {
-		const lengthID = productsList.filter((crepe) => crepe.name == name).length - 1;
-		setProductsList(productsList.filter((crepe) => crepe.uid !== name + lengthID));
+		const lengthID = order.filter((crepe) => crepe.name == name).length - 1;
+		setOrder(order.filter((crepe) => crepe.uid !== name + lengthID));
 	};
 
 	useEffect(() => {
@@ -66,7 +66,7 @@ const Crepes = () => {
 			const localCrepes = JSON.parse(localProduct);
 		}
 
-		localCrepes && setProductsList(localCrepes);
+		localCrepes && setOrder(localCrepes);
 		localStorage.clear('productList');
 
 		router.query.id &&
@@ -81,8 +81,8 @@ const Crepes = () => {
 
 	return (
 		<>
-			{crepes.crepes?.data ? (
-				crepes.crepes.data.map(
+			{crepes ? (
+				crepes?.map(
 					(
 						{
 							attributes: {
@@ -110,7 +110,7 @@ const Crepes = () => {
 											}}>
 											-
 										</p>
-										<p className='bg-white flex items-center justify-center font-bold text-gray-800 text-xl rounded-full shadow-md w-8'>{productsList && productsList.filter((crepe) => crepe.name == name).length}</p>
+										<p className='bg-white flex items-center justify-center font-bold text-gray-800 text-xl rounded-full shadow-md w-8'>{order && order.filter((crepe) => crepe.name == name).length}</p>
 										<p
 											className='font-bold text-gray-800 text-2xl px-1 cursor-pointer'
 											onClick={() => {
@@ -132,7 +132,7 @@ const Crepes = () => {
 										/>
 									</div>
 									<div className='text-md font-semibold flex items-center text-gray-800'>
-										{(productsList.filter((crepe) => crepe.name == name).length * price).toFixed(2)}
+										{(order.filter((crepe) => crepe.name == name).length * price).toFixed(2)}
 										<span className='text-xs'>€</span>
 									</div>
 								</div>
@@ -150,71 +150,13 @@ const Crepes = () => {
 						<div className='text-md font-semibold flex items-center text-gray-800'> {Number(totalNutella + totalSupplement).toFixed(2)} € </div>
 						{/* <Image loader={myLoader} src={url} width={80} height={80} alt={name} className='absolute object-contain' /> */}
 					</div>
+
 					<Tabs orientation='horizontal' grow={true}>
-						{productsList
+						{order
 							.filter((crp) => crp.name == currentCrepe)
 							.map((crepe, i) => (
 								<Tabs.Tab label={`Crepe ${i + 1}`}>
-									<div className='flex-col py-10 px-3 bg-gray-100 dark:bg-gray-700'>
-										<h4>Suppléments</h4>
-										<div className='h-36 w-full bg-white dark:bg-gray-600 p-3 mt-2 mb-5 shadow border rounded ring-blue-600 outline-none focus:ring-2 overflow-hidden overflow-y-scroll'>
-											{crepes?.supplements.data
-												.filter((crp) => crp.attributes.name !== currentCrepe)
-												.map(
-													(
-														{
-															id,
-															attributes: {
-																name,
-																price,
-																img: {
-																	data: {
-																		attributes: { url },
-																	},
-																},
-															},
-														},
-														index
-													) => (
-														<div className='flex flex-row items-center h-5 py-5 border-b-2 bg-gray-200' key={index}>
-															<Image loader={myLoader} src={url} width={30} height={30} alt={name} className='object-contain' />
-															<p className='ml-3 text-sm sm:text-sm lg:text-base font-medium text-black dark:text-gray-200 cursor-pointer'>{name}</p>
-															<p className='ml-3 text-sm lg:text-base font-bold text-black dark:text-gray-200 cursor-pointer'>{price.toFixed(2)} €</p>
-															<Switch
-																checked={checked}
-																color='yellow'
-																onChange={(event) => {
-																	setChecked(event.currentTarget.checked);
-																	toggleSuppl(name);
-																}}
-															/>
-
-															<TrashIcon
-																className='w-4 h-4 cursor-pointer mx-2 text-primary'
-																onClick={() => {
-																	setActiveTab(!activeTab);
-																	removeProduct(id);
-																}}
-															/>
-															<PlusIcon
-																className='w-4 h-4 cursor-pointer mx-2 text-primary'
-																onClick={() => {
-																	setActiveTab(!activeTab);
-																	setSupplementList([...supplementList, { name: name, price: price, id_list: id }]);
-																}}
-															/>
-														</div>
-													)
-												)}
-										</div>
-										<button
-											className='flex flex-row items-center justify-center gap-2 bg-primary text-white rounded-full font-light py-2 px-4'
-											onClick={() => {
-												setModal(!modal);
-											}}>
-											<CheckIcon className='w-6' /> <p>Valider</p>
-										</button>
-									</div>
+									<Supplements order={order} supplements={supplements} currentCrepe={currentCrepe} i={i} />
 								</Tabs.Tab>
 							))}
 					</Tabs>
