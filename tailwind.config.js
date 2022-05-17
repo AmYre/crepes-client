@@ -16,10 +16,13 @@ module.exports = {
 			},
 			boxShadow: {
 				modal: '0px 0px 30px 5px rgba(0, 0, 0, 0.2)',
+				circle: '0px 0px 0px 10px white',
 			},
 			spacing: {
 				95: '95vh',
 				115: '115%',
+				ximg: '-10%',
+				yimg: '-30%',
 			},
 		},
 	},
