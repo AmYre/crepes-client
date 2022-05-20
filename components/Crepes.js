@@ -11,23 +11,13 @@ import { useForm } from 'react-hook-form';
 import Supplements from './Supplements';
 
 const Crepes = () => {
+	const { crepes, setCrepes, supplements, setSupplements, totalSuppls, setTotalSuppls, order, setOrder, randomNumber } = useGlobalContext();
+
 	const router = useRouter();
-	const { crepes, setCrepes, supplements, setSupplements, quantity, setQuantity, randomNumber, theme, setTheme, minutes, setMinutes, seconds, setSeconds, payed, setPayed } = useGlobalContext();
 	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
-	const totalSupplement = Number(supplements?.reduce((a, b) => a + b.price, 0).toFixed(2));
 
-	const myLoader = ({ src, width, quality }) => {
-		return `${src}?w=${width}&q=${quality || 75}`;
-	};
-
-	const removeProduct = (id) => {
-		const removedProduct = supplements?.filter((product) => product.id_list !== id);
-		setSupplements(removedProduct);
-	};
-
-	const [order, setOrder] = useState([]);
 	const [modal, setModal] = useState(false);
-	const [totalCrepe, setTotalCrepe] = useState();
+	const [totalCrepe, setTotalCrepe] = useState(0);
 	const [currentCrepe, setCurrentCrepe] = useState();
 	const [currentCrepeImg, setCurrentCrepeImg] = useState();
 	const [currentCrepePrice, setCurrentCrepePrice] = useState();
@@ -42,13 +32,25 @@ const Crepes = () => {
 	};
 
 	const addCrepe = (name, price) => {
+		const createSupplObject = supplements.map((suppl) => ({ [suppl.attributes.name]: false }));
+		const flattenedSuppl = createSupplObject.reduce((acc, val) => {
+			Object.keys(val).forEach((key) => {
+				console.log(acc[key]);
+				if (!acc[key]) {
+					acc[key] = [];
+				}
+				acc[key].push(val[key]);
+			});
+			return acc;
+		}, {});
+
 		setOrder([
 			...order,
 			{
 				uid: name + order.filter((crepe) => crepe.name == name).length,
 				name,
 				price,
-				suppls: [],
+				suppls: flattenedSuppl,
 			},
 		]);
 
@@ -58,7 +60,6 @@ const Crepes = () => {
 				.reduce((a, b) => a + b.price, 0)
 				.toFixed(2)
 		);
-		console.log(totalCrepe);
 	};
 
 	const delCrepe = (name) => {
@@ -104,7 +105,7 @@ const Crepes = () => {
 						i
 					) => (
 						<div key={name} className='flex flex-row gap-3 bg-white p-4 mt-8 mx-4 rounded shadow'>
-							<Image loader={myLoader} src={url} width={80} height={80} alt={name} className='grow-0 object-contain' />
+							<Image src={url} width={80} height={80} alt={name} className='grow-0 object-contain' />
 							<div className='grow flex-col'>
 								<div className='flex flex-row justify-between'>
 									<div className='text-xl font-bold text-gray-800'>{name}</div>
@@ -137,8 +138,8 @@ const Crepes = () => {
 											className='w-8 h-8 cursor-pointer p-1 text-primary rounded-full shadow-md'
 										/>
 									</div>
-									<motion.div key={(order.filter((crepe) => crepe.name == name).length * price).toFixed(2)} animate={{ rotate: 360 }} className='text-md font-semibold flex items-center text-gray-800'>
-										{(order.filter((crepe) => crepe.name == name).length * price).toFixed(2)}
+									<motion.div key={(order?.filter((crepe) => crepe.name == name).length * price).toFixed(2)} animate={{ rotate: 360 }} className='text-md font-semibold flex items-center text-gray-800'>
+										{(order?.filter((crepe) => crepe.name == name).length * price).toFixed(2)}
 										<span className='text-xs'>€</span>
 									</motion.div>
 								</div>
@@ -153,8 +154,8 @@ const Crepes = () => {
 				<div className='my-modal flex flex-col items-center h-95 absolute top-0 left-0 right-0 z-10 bg-white shadow-modal m-4 mb-8 p-4'>
 					<div className='w-full flex flex-row relative justify-between items-start'>
 						<h3 className='text-2xl font-bold text-gray-800'>{currentCrepe}</h3>
-						<div className='text-md font-semibold mt-1 text-gray-800'> {(order.filter((crepe) => crepe.name == currentCrepe).length * currentCrepePrice).toFixed(2)}€ </div>
-						<Image className='shadow-circle overflow-visible translate-x-ximg translate-y-yimg bg-white p-32 rounded-full' loader={myLoader} src={currentCrepeImg} width={80} height={80} />
+						<div className='text-md font-semibold mt-1 text-gray-800'> {(order.filter((crepe) => crepe.name == currentCrepe).length * currentCrepePrice + totalSuppls).toFixed(2)}€ </div>
+						<Image className='shadow-circle overflow-visible translate-x-ximg translate-y-yimg bg-white p-32 rounded-full' src={currentCrepeImg} width={80} height={80} />
 					</div>
 
 					<Tabs orientation='horizontal' grow={true}>
@@ -162,7 +163,7 @@ const Crepes = () => {
 							.filter((crp) => crp.name == currentCrepe)
 							.map((crepe, i) => (
 								<Tabs.Tab label={`Crepe ${i + 1}`}>
-									<Supplements order={order} supplements={supplements} currentCrepe={currentCrepe} i={i} />
+									<Supplements currentCrepe={currentCrepe} i={i} />
 								</Tabs.Tab>
 							))}
 					</Tabs>

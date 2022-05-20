@@ -6,6 +6,10 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
 	const [crepes, setCrepes] = useState();
 	const [supplements, setSupplements] = useState();
+	const [supplPrice, setSupplPrice] = useState();
+	const [totalSuppls, setTotalSuppls] = useState(0);
+	const [order, setOrder] = useState([]);
+	const [suppls, setSuppls] = useState([]);
 	const [quantity, setQuantity] = useState(1);
 	const [theme, setTheme] = useState(false);
 	const [payed, setPayed] = useState(false);
@@ -66,8 +70,9 @@ const AppProvider = ({ children }) => {
 				`,
 			});
 
-			setCrepes(data.crepes.data);
-			setSupplements(data.supplements.data);
+			setCrepes(data?.crepes?.data);
+			setSupplements(data?.supplements?.data);
+			setSupplPrice(data?.supplements?.data[0]?.attributes?.price);
 		}
 
 		getCrepes();
@@ -80,6 +85,14 @@ const AppProvider = ({ children }) => {
 				setCrepes,
 				supplements,
 				setSupplements,
+				supplPrice,
+				setSupplPrice,
+				totalSuppls,
+				setTotalSuppls,
+				order,
+				setOrder,
+				suppls,
+				setSuppls,
 				quantity,
 				setQuantity,
 				randomNumber,
