@@ -9,12 +9,12 @@ const AppProvider = ({ children }) => {
 	const [supplPrice, setSupplPrice] = useState();
 	const [totalSuppls, setTotalSuppls] = useState(0);
 	const [order, setOrder] = useState([]);
-	const [suppls, setSuppls] = useState([]);
 	const [quantity, setQuantity] = useState(1);
 	const [theme, setTheme] = useState(false);
 	const [payed, setPayed] = useState(false);
 	const [minutes, setMinutes] = useState(0);
 	const [seconds, setSeconds] = useState(0);
+	const [modal, setModal] = useState(false);
 
 	const randomNumber = Math.floor(Math.random() * 100000 + 1);
 
@@ -91,8 +91,6 @@ const AppProvider = ({ children }) => {
 				setTotalSuppls,
 				order,
 				setOrder,
-				suppls,
-				setSuppls,
 				quantity,
 				setQuantity,
 				randomNumber,
@@ -104,6 +102,8 @@ const AppProvider = ({ children }) => {
 				setSeconds,
 				payed,
 				setPayed,
+				modal,
+				setModal,
 			}}>
 			{children}
 		</AppContext.Provider>
