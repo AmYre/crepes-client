@@ -23,16 +23,12 @@ const Crepes = () => {
 	const [currentCrepePrice, setCurrentCrepePrice] = useState();
 
 	const openModal = (name, url, price) => {
-		console.log(order.filter((crepe) => crepe.name == name).length);
 		if (order.filter((crepe) => crepe.name == name).length > 0) {
-			console.log('do we enter ?');
 			setModal(!modal);
-			console.log(modal);
 			setCurrentCrepe(name);
 			setCurrentCrepeImg(url);
 			setCurrentCrepePrice(price);
 		} else return;
-		console.log(modal);
 	};
 
 	const addCrepe = (name, price) => {
@@ -84,6 +80,8 @@ const Crepes = () => {
 				},
 			});
 	}, [router]);
+
+	console.log(order);
 
 	return (
 		<>
@@ -161,7 +159,7 @@ const Crepes = () => {
 						{order
 							?.filter((crp) => crp.name == currentCrepe)
 							.map((crepe, i) => (
-								<Tabs.Tab label={`Crepe ${i + 1}`}>
+								<Tabs.Tab label={`Crêpe ${i + 1}`}>
 									<Supplements currentCrepe={currentCrepe} i={i} />
 								</Tabs.Tab>
 							))}

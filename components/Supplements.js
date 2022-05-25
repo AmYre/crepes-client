@@ -19,8 +19,8 @@ const Supplements = ({ currentCrepe, i }) => {
 	};
 
 	return (
-		<div key={`Div${i}`} className='flex-col pt-3 px-3 dark:bg-gray-700'>
-			<h4 className='font-bold text-gray-800'>Suppléments {`Crepe ${i + 1}`}</h4>
+		<div key={`Div${i}`} className='flex-col text-center pt-3 px-3 dark:bg-gray-700'>
+			<h4 className='font-bold text-xl text-gray-800 my-4'>Suppléments {`Crêpe ${i + 1}`}</h4>
 			<div className=''>
 				{supplements
 					?.filter((crp) => crp.attributes.name !== currentCrepe)
@@ -46,15 +46,16 @@ const Supplements = ({ currentCrepe, i }) => {
 									<p className='ml-3 text-sm sm:text-sm lg:text-base font-medium text-black dark:text-gray-200 cursor-pointer'>{name}</p>
 								</div>
 								<div className='flex flex-row items-center'>
-									<Switch color='yellow' key={uid + name + index} type='checkbox' onChange={handleChange} name={name} value={uid} checked={order[i].suppls[name]} />
+									{console.log(order?.filter((crepe) => crepe.uid == uid))}
+									<Switch color='yellow' key={uid + name + index} type='checkbox' onChange={handleChange} name={name} value={uid} checked={order?.filter((crepe) => crepe.uid == uid)[0].suppls[name]} />
 									<p className='ml-3 text-sm lg:text-base font-bold text-black dark:text-gray-200 cursor-pointer'>{price.toFixed(2)} €</p>
 								</div>
 							</div>
 						)
 					)}
 
-				<button className='text-black' onClick={() => setModal(!modal)}>
-					Valider
+				<button className='text-white bg-primary rounded-full py-2 px-6 mt-6' onClick={() => setModal(!modal)}>
+					Fermer
 				</button>
 			</div>
 		</div>
