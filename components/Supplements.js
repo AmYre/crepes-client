@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useGlobalContext } from '../context/Context';
 import { CheckIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
@@ -17,6 +17,18 @@ const Supplements = ({ currentCrepe, i }) => {
 			return updatedOrder;
 		});
 	};
+
+	useEffect(() => {
+		const supplsByCrepe = order.reduce((acc, crp) => {
+			let { name, suppls } = crp;
+			return { ...acc, [name]: [...(acc[name] || []), Object.values(suppls)] };
+		}, {});
+
+		const targetedSuppls = supplsByCrepe[currentCrepe];
+		console.log(supplsByCrepe);
+
+		setTotalSuppls(targetedSuppls.flat().filter((value) => value).length * supplPrice);
+	}, [order]);
 
 	return (
 		<div key={`Div${i}`} className='flex-col text-center pt-3 px-3 dark:bg-gray-700'>
@@ -46,7 +58,6 @@ const Supplements = ({ currentCrepe, i }) => {
 									<p className='ml-3 text-sm sm:text-sm lg:text-base font-medium text-black dark:text-gray-200 cursor-pointer'>{name}</p>
 								</div>
 								<div className='flex flex-row items-center'>
-									{console.log(order?.filter((crepe) => crepe.uid == uid))}
 									<Switch color='yellow' key={uid + name + index} type='checkbox' onChange={handleChange} name={name} value={uid} checked={order?.filter((crepe) => crepe.uid == uid)[0].suppls[name]} />
 									<p className='ml-3 text-sm lg:text-base font-bold text-black dark:text-gray-200 cursor-pointer'>{price.toFixed(2)} €</p>
 								</div>

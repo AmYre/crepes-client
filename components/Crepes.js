@@ -79,9 +79,7 @@ const Crepes = () => {
 					confirm_order: false,
 				},
 			});
-	}, [router]);
-
-	console.log(order);
+	}, [router, order]);
 
 	return (
 		<>
@@ -136,7 +134,7 @@ const Crepes = () => {
 										/>
 									</div>
 									<motion.div key={(order?.filter((crepe) => crepe.name == name).length * price).toFixed(2)} animate={{ rotate: 360 }} className='text-md font-semibold flex items-center text-gray-800'>
-										{(order?.filter((crepe) => crepe.name == name).length * price).toFixed(2)}
+										{(order?.filter((crepe) => crepe.name == name).length * price + totalSuppls).toFixed(2)}
 										<span className='text-xs'>€</span>
 									</motion.div>
 								</div>
