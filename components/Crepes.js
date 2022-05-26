@@ -159,7 +159,7 @@ const Crepes = () => {
 				<div>Oops.. Nous n'avons pas pu accéder à la carte. Merci de signaler le dysfonctionnement</div>
 			)}
 			{modal && (
-				<div className='my-modal flex flex-col items-center h-95 absolute top-0 left-0 right-0 z-10 bg-white shadow-modal m-4 mb-8 p-4'>
+				<div className='my-modal flex flex-col items-center h-95 absolute top-0 left-0 right-0 z-10 bg-white shadow-modal m-4 mb-8 p-4 rounded-3xl'>
 					<div className='w-full flex flex-row relative justify-between items-start'>
 						<h3 className='text-2xl font-bold text-gray-800'>{currentCrepe}</h3>
 						<div className='text-md font-semibold mt-1 text-gray-800'>{(order?.filter((crepe) => crepe.name == currentCrepe).length * currentCrepePrice + totalSuppls[currentCrepe]).toFixed(2)}€</div>
