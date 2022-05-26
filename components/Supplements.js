@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Switch } from '@mantine/core';
 
 const Supplements = ({ currentCrepe, i }) => {
-	const { supplements, setSupplements, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, modal, setModal } = useGlobalContext();
+	const { supplements, setSupplements, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, modal, setModal, total, setTotal } = useGlobalContext();
 	const uid = currentCrepe + i;
 
 	const handleChange = (e) => {
@@ -23,11 +23,8 @@ const Supplements = ({ currentCrepe, i }) => {
 			let { name, suppls } = crp;
 			return { ...acc, [name]: [...(acc[name] || []), Object.values(suppls)] };
 		}, {});
-
 		const targetedSuppls = supplsByCrepe[currentCrepe];
-		console.log(supplsByCrepe);
-
-		setTotalSuppls(targetedSuppls.flat().filter((value) => value).length * supplPrice);
+		setTotalSuppls({ ...totalSuppls, [currentCrepe]: +(targetedSuppls.flat().filter((value) => value).length * supplPrice).toFixed(2) });
 	}, [order]);
 
 	return (

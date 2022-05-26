@@ -5,9 +5,12 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
 	const [crepes, setCrepes] = useState();
+	const [currentCrepe, setCurrentCrepe] = useState();
 	const [supplements, setSupplements] = useState();
 	const [supplPrice, setSupplPrice] = useState();
-	const [totalSuppls, setTotalSuppls] = useState(0);
+	const [suppls, setSuppls] = useState({});
+	const [totalSuppls, setTotalSuppls] = useState({});
+	const [total, setTotal] = useState((0).toFixed(2));
 	const [order, setOrder] = useState([]);
 	const [quantity, setQuantity] = useState(1);
 	const [theme, setTheme] = useState(false);
@@ -83,6 +86,8 @@ const AppProvider = ({ children }) => {
 			value={{
 				crepes,
 				setCrepes,
+				currentCrepe,
+				setCurrentCrepe,
 				supplements,
 				setSupplements,
 				supplPrice,
@@ -104,6 +109,10 @@ const AppProvider = ({ children }) => {
 				setPayed,
 				modal,
 				setModal,
+				suppls,
+				setSuppls,
+				total,
+				setTotal,
 			}}>
 			{children}
 		</AppContext.Provider>

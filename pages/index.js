@@ -17,8 +17,10 @@ export default function Home() {
 					<img src='/logo.png' className='w-40 pl-4' />
 					<img src='/cart.png' className='pr-8 w-16' />
 				</nav>
-				<Crepes />
-				{/* <BottomBar /> */}
+				<section className='pb-28 overflow-scroll'>
+					<Crepes />
+				</section>
+				<BottomBar />
 			</main>
 		</>
 	);

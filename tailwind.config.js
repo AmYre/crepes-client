@@ -23,6 +23,7 @@ module.exports = {
 				115: '115%',
 				ximg: '-10%',
 				yimg: '-30%',
+				bar: '-36px',
 			},
 		},
 	},

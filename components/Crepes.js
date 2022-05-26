@@ -11,14 +11,11 @@ import { useForm } from 'react-hook-form';
 import Supplements from './Supplements';
 
 const Crepes = () => {
-	const { crepes, setCrepes, supplements, setSupplements, totalSuppls, setTotalSuppls, order, setOrder, randomNumber, modal, setModal } = useGlobalContext();
+	const { crepes, setCrepes, currentCrepe, setCurrentCrepe, supplements, setSupplements, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, randomNumber, modal, setModal, total, setTotal } = useGlobalContext();
 
 	const router = useRouter();
 	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
 
-	const [suppls, setSuppls] = useState({});
-	const [totalCrepe, setTotalCrepe] = useState(0);
-	const [currentCrepe, setCurrentCrepe] = useState();
 	const [currentCrepeImg, setCurrentCrepeImg] = useState();
 	const [currentCrepePrice, setCurrentCrepePrice] = useState();
 
@@ -32,13 +29,7 @@ const Crepes = () => {
 	};
 
 	const addCrepe = (name, price) => {
-		const createSupplObject = supplements.map((suppl) => ({ [suppl.attributes.name]: false }));
-		createSupplObject.reduce((acc, val) => {
-			Object.keys(val).forEach((key) => {
-				setSuppls((prev) => ({ ...prev, [Object.keys(val)[0]]: val[key] }));
-			});
-		}, {});
-
+		setCurrentCrepe(name);
 		setOrder([
 			...order,
 			{
@@ -48,19 +39,41 @@ const Crepes = () => {
 				suppls,
 			},
 		]);
-
-		setTotalCrepe(
-			order
-				.filter((crp) => crp.name == name)
-				.reduce((a, b) => a + b.price, 0)
-				.toFixed(2)
-		);
+		setTotal((prev) => prev + 1);
 	};
 
 	const delCrepe = (name) => {
-		const lengthID = order?.filter((crepe) => crepe.name == name).length - 1;
-		setOrder(order?.filter((crepe) => crepe.uid !== name + lengthID));
+		setCurrentCrepe(name);
+		if (order.filter((crepe) => crepe.name == name).length > 0) {
+			const supplsByCrepe = order.reduce((acc, crp) => {
+				let { name, suppls } = crp;
+				return { ...acc, [name]: [...(acc[name] || []), Object.values(suppls)] };
+			}, {});
+			const targetedSuppls = supplsByCrepe[name];
+
+			const lengthID = order?.filter((crepe) => crepe.name == name).length - 1;
+			setOrder(order?.filter((crepe) => crepe.uid !== name + lengthID));
+
+			setOrder((prevOrder) => {
+				const updatedOrder = prevOrder.map((crp) => (crp.uid == name + lengthID ? { ...crp, suppls: {} } : crp));
+				return updatedOrder;
+			});
+
+			setTotalSuppls({ ...totalSuppls, [name]: targetedSuppls[0].length !== 0 ? +(targetedSuppls?.flat().filter((value) => value).length * supplPrice).toFixed(2) : 0 });
+		} else return;
 	};
+
+	useEffect(() => {
+		if (order.length > 0) {
+			const supplsByCrepe = order.reduce((acc, crp) => {
+				let { name, suppls } = crp;
+				return { ...acc, [name]: [...(acc[name] || []), Object.values(suppls)] };
+			}, {});
+			const targetedSuppls = supplsByCrepe[currentCrepe];
+
+			setTotalSuppls({ ...totalSuppls, [currentCrepe]: targetedSuppls !== undefined ? +(targetedSuppls.flat().filter((value) => value).length * supplPrice).toFixed(2) : 0 });
+		}
+	}, [order]);
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
@@ -79,7 +92,7 @@ const Crepes = () => {
 					confirm_order: false,
 				},
 			});
-	}, [router, order]);
+	}, [router]);
 
 	return (
 		<>
@@ -134,7 +147,7 @@ const Crepes = () => {
 										/>
 									</div>
 									<motion.div key={(order?.filter((crepe) => crepe.name == name).length * price).toFixed(2)} animate={{ rotate: 360 }} className='text-md font-semibold flex items-center text-gray-800'>
-										{(order?.filter((crepe) => crepe.name == name).length * price + totalSuppls).toFixed(2)}
+										{totalSuppls[name] === undefined ? (order?.filter((crepe) => crepe.name == name).length * price).toFixed(2) : (order?.filter((crepe) => crepe.name == name).length * price + totalSuppls[name]).toFixed(2)}
 										<span className='text-xs'>€</span>
 									</motion.div>
 								</div>
@@ -149,11 +162,11 @@ const Crepes = () => {
 				<div className='my-modal flex flex-col items-center h-95 absolute top-0 left-0 right-0 z-10 bg-white shadow-modal m-4 mb-8 p-4'>
 					<div className='w-full flex flex-row relative justify-between items-start'>
 						<h3 className='text-2xl font-bold text-gray-800'>{currentCrepe}</h3>
-						<div className='text-md font-semibold mt-1 text-gray-800'> {(order?.filter((crepe) => crepe.name == currentCrepe).length * currentCrepePrice + totalSuppls).toFixed(2)}€ </div>
+						<div className='text-md font-semibold mt-1 text-gray-800'>{(order?.filter((crepe) => crepe.name == currentCrepe).length * currentCrepePrice + totalSuppls[currentCrepe]).toFixed(2)}€</div>
 						<Image className='shadow-circle overflow-visible translate-x-ximg translate-y-yimg bg-white p-32 rounded-full' src={currentCrepeImg} width={80} height={80} />
 					</div>
 
-					<Tabs orientation='horizontal' className='w-full' grow={true}>
+					<Tabs orientation='horizontal' className='w-full overflow-scroll' grow={true}>
 						{order
 							?.filter((crp) => crp.name == currentCrepe)
 							.map((crepe, i) => (
