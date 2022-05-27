@@ -66,7 +66,7 @@ const Crepes = () => {
 	};
 
 	useEffect(() => {
-		if (order.length > 0) {
+		if (order.length >= 0) {
 			const supplsByCrepe = order.reduce((acc, crp) => {
 				let { name, suppls } = crp;
 				return { ...acc, [name]: [...(acc[name] || []), Object.values(suppls)] };
