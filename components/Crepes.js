@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client';
 import { CREATE_ORDER } from '../hooks/mutations/useCreateOrder';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Popover, Tabs } from '@mantine/core';
+import { Popover, Tabs, Loader } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { PencilAltIcon, PlusIcon, TrashIcon, CheckIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form';
@@ -186,7 +186,12 @@ const Crepes = () => {
 					)
 				)
 			) : (
-				<div>Oops.. Nous n'avons pas pu accéder à la carte. Merci de signaler le dysfonctionnement</div>
+				<div className='h-95 flex flex-col justify-center items-center gap-8  text-center px-4'>
+					<div className='font-bold text-3xl'>Bienvenue chez Pomme de Pain</div>
+					<div>Veuillez patienter quelques instants...</div>
+					<Loader color='yellow' variant='dots' size={150} />
+					<div>On prépare vos crêpes</div>
+				</div>
 			)}
 			{modal && (
 				<div className='my-modal flex flex-col items-center h-95 absolute top-0 left-0 right-0 z-10 bg-white shadow-modal m-4 mb-8 p-4 rounded-3xl'>
