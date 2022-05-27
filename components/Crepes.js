@@ -4,28 +4,30 @@ import { useMutation } from '@apollo/client';
 import { CREATE_ORDER } from '../hooks/mutations/useCreateOrder';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Switch, Tabs } from '@mantine/core';
+import { Popover, Tabs } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { PencilAltIcon, PlusIcon, TrashIcon, CheckIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form';
 import Supplements from './Supplements';
 
 const Crepes = () => {
-	const { crepes, setCrepes, currentCrepe, setCurrentCrepe, supplements, setSupplements, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, randomNumber, modal, setModal, total, setTotal } = useGlobalContext();
+	const { crepes, setCrepes, currentCrepe, setCurrentCrepe, supplements, setSupplements, suppls, setSuppls, numberSuppls, setNumberSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, randomNumber, modal, setModal, total, setTotal } = useGlobalContext();
 
 	const router = useRouter();
 	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
 
 	const [currentCrepeImg, setCurrentCrepeImg] = useState();
+	const [warning, setWarning] = useState(false);
 	const [currentCrepePrice, setCurrentCrepePrice] = useState();
 
 	const openModal = (name, url, price) => {
 		if (order.filter((crepe) => crepe.name == name).length > 0) {
+			setWarning(false);
 			setModal(!modal);
 			setCurrentCrepe(name);
 			setCurrentCrepeImg(url);
 			setCurrentCrepePrice(price);
-		} else return;
+		} else setWarning(name);
 	};
 
 	const addCrepe = (name, price) => {
@@ -137,15 +139,43 @@ const Crepes = () => {
 								</div>
 								<div className='text-md font-medium text-gray-800'>{price.toFixed(2)} € </div>
 								<div className='flex flex-row text-gray-800 justify-between'>
-									<div className='flex flex-row text-xs text-gray-80 items-center mr-3 gap-0'>
-										<p className='text-black'>0.70€ par suppl.</p>
-										<PencilAltIcon
-											onClick={() => {
-												openModal(name, url, price);
-											}}
-											className='w-8 h-8 cursor-pointer p-1 text-primary rounded-full shadow-md'
-										/>
-									</div>
+									<Popover
+										key={name}
+										opened={name == warning}
+										onClose={() => setWarning(false)}
+										target={
+											<button
+												className='flex flex-row bg-secondary text-xs text-white items-center mt-2 px-2 shadow-md rounded-full cursor-pointer'
+												onClick={() => {
+													openModal(name, url, price);
+												}}>
+												<p>
+													{Object.keys(totalSuppls).includes(name) && (
+														<span className='rounded-full text-black font-bold px-1 bg-white mr-1'>
+															{
+																order
+																	.reduce((acc, crp) => {
+																		let { name, suppls } = crp;
+																		return { ...acc, [name]: [...(acc[name] || []), Object.values(suppls)] };
+																	}, {})
+																	[name]?.flat()
+																	.filter((value) => value).length
+															}
+														</span>
+													)}
+													Suppléments
+												</p>
+												<PencilAltIcon className='w-7 h-7 p-1' />
+											</button>
+										}
+										width={260}
+										position='bottom'
+										withArrow>
+										<div style={{ display: 'flex' }}>
+											<p size='sm'>Vou n'avez pas encore ajouté de crêpe...</p>
+										</div>
+									</Popover>
+
 									<motion.div key={(order?.filter((crepe) => crepe.name == name).length * price).toFixed(2)} animate={{ rotate: 360 }} className='text-md font-semibold flex items-center text-gray-800'>
 										{totalSuppls[name] === undefined ? (order?.filter((crepe) => crepe.name == name).length * price).toFixed(2) : (order?.filter((crepe) => crepe.name == name).length * price + totalSuppls[name]).toFixed(2)}
 										<span className='text-xs'>€</span>

@@ -9,6 +9,7 @@ const AppProvider = ({ children }) => {
 	const [supplements, setSupplements] = useState();
 	const [supplPrice, setSupplPrice] = useState();
 	const [suppls, setSuppls] = useState({});
+	const [numberSuppls, setNumberSuppls] = useState();
 	const [totalSuppls, setTotalSuppls] = useState({});
 	const [total, setTotal] = useState((0).toFixed(2));
 	const [order, setOrder] = useState([]);
@@ -92,6 +93,8 @@ const AppProvider = ({ children }) => {
 				setSupplements,
 				supplPrice,
 				setSupplPrice,
+				numberSuppls,
+				setNumberSuppls,
 				totalSuppls,
 				setTotalSuppls,
 				order,

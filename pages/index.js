@@ -15,7 +15,10 @@ export default function Home() {
 			<main className='w-screen h-screen font-comfortaa text-white flex flex-col bg-home bg-cover'>
 				<nav className='flex flex-row items-center justify-between'>
 					<img src='/logo.png' className='w-40 pl-4' />
-					<img src='/cart.png' className='pr-8 w-16' />
+					<div className='flex flex-row'>
+						<img src='/fr.png' className='pr-8 w-16' />
+						<img src='/en.png' className='pr-8 w-16' />
+					</div>
 				</nav>
 				<section className='pb-28 overflow-scroll'>
 					<Crepes />
