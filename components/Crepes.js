@@ -1,23 +1,16 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useGlobalContext } from '../context/Context';
-import { useMutation } from '@apollo/client';
-import { CREATE_ORDER } from '../hooks/mutations/useCreateOrder';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
+import { PencilAltIcon } from '@heroicons/react/solid';
 import { Popover, Tabs, Loader } from '@mantine/core';
 import { motion } from 'framer-motion';
-import { PencilAltIcon, PlusIcon, TrashIcon, CheckIcon } from '@heroicons/react/solid';
-import { useForm } from 'react-hook-form';
+import Image from 'next/image';
 import Supplements from './Supplements';
 
 const Crepes = () => {
-	const { crepes, setCrepes, currentCrepe, setCurrentCrepe, supplements, setSupplements, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, randomNumber, modal, setModal, total, setTotal } = useGlobalContext();
+	const { crepes, setCrepes, currentCrepe, setCurrentCrepe, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, modal, setModal } = useGlobalContext();
 
-	const router = useRouter();
-	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
-
-	const [currentCrepeImg, setCurrentCrepeImg] = useState();
 	const [warning, setWarning] = useState(false);
+	const [currentCrepeImg, setCurrentCrepeImg] = useState();
 	const [currentCrepePrice, setCurrentCrepePrice] = useState();
 
 	const openModal = (name, url, price) => {
@@ -42,7 +35,6 @@ const Crepes = () => {
 				suppls,
 			},
 		]);
-		setTotal((prev) => prev + 1);
 	};
 
 	const delCrepe = (name) => {
@@ -77,25 +69,6 @@ const Crepes = () => {
 			setTotalSuppls({ ...totalSuppls, [currentCrepe]: targetedSuppls !== undefined ? +(targetedSuppls.flat().filter((value) => value).length * supplPrice).toFixed(2) : 0 });
 		}
 	}, [order]);
-
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const localProduct = localStorage.getItem('productList');
-			const localCrepes = JSON.parse(localProduct);
-		}
-
-		localCrepes && setOrder(localCrepes);
-		localStorage.clear('productList');
-
-		router.query.id &&
-			createOrder({
-				variables: {
-					order_id: randomNumber,
-					total: 0,
-					confirm_order: false,
-				},
-			});
-	}, [router]);
 
 	return (
 		<>

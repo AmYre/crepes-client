@@ -4,7 +4,7 @@ import { ChevronRightIcon } from '@heroicons/react/solid';
 import getStripe from '../hooks/utils/getStripe';
 
 const BottomBar = () => {
-	const { supplements, setSupplements, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, modal, setModal, total, setTotal } = useGlobalContext();
+	const { totalSuppls, setTotalSuppls, order, setOrder } = useGlobalContext();
 
 	const handleCheckout = async () => {
 		const stripe = await getStripe();

@@ -10,16 +10,8 @@ const AppProvider = ({ children }) => {
 	const [supplPrice, setSupplPrice] = useState();
 	const [suppls, setSuppls] = useState({});
 	const [totalSuppls, setTotalSuppls] = useState({});
-	const [total, setTotal] = useState((0).toFixed(2));
 	const [order, setOrder] = useState([]);
-	const [quantity, setQuantity] = useState(1);
-	const [theme, setTheme] = useState(false);
-	const [payed, setPayed] = useState(false);
-	const [minutes, setMinutes] = useState(0);
-	const [seconds, setSeconds] = useState(0);
 	const [modal, setModal] = useState(false);
-
-	const randomNumber = Math.floor(Math.random() * 100000 + 1);
 
 	useEffect(() => {
 		async function getCrepes() {
@@ -96,23 +88,10 @@ const AppProvider = ({ children }) => {
 				setTotalSuppls,
 				order,
 				setOrder,
-				quantity,
-				setQuantity,
-				randomNumber,
-				theme,
-				setTheme,
-				minutes,
-				setMinutes,
-				seconds,
-				setSeconds,
-				payed,
-				setPayed,
 				modal,
 				setModal,
 				suppls,
 				setSuppls,
-				total,
-				setTotal,
 			}}>
 			{children}
 		</AppContext.Provider>

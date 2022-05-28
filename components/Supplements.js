@@ -1,11 +1,10 @@
-import { useRef, useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useGlobalContext } from '../context/Context';
-import { CheckIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import { Switch } from '@mantine/core';
 
 const Supplements = ({ currentCrepe, i }) => {
-	const { supplements, setSupplements, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, modal, setModal, total, setTotal } = useGlobalContext();
+	const { supplements, setSupplements, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, modal, setModal } = useGlobalContext();
 	const uid = currentCrepe + i;
 
 	const handleChange = (e) => {
@@ -49,12 +48,12 @@ const Supplements = ({ currentCrepe, i }) => {
 							},
 							index
 						) => (
-							<div className='flex flex-row justify-between py-5' key={index}>
-								<div className='flex flex-row items-center'>
+							<div key={index} className='flex flex-row justify-between py-5'>
+								<div key={index + name} className='flex flex-row items-center'>
 									<Image src={url} width={30} height={30} alt={name} className='object-contain' />
 									<p className='ml-3 text-sm sm:text-sm lg:text-base font-medium text-black cursor-pointer'>{name}</p>
 								</div>
-								<div className='flex flex-row items-center'>
+								<div key={index} className='flex flex-row items-center'>
 									<Switch color='yellow' key={uid + name + index} type='checkbox' onChange={handleChange} name={name} value={uid} checked={order?.filter((crepe) => crepe.uid == uid)[0].suppls[name]} />
 									<p className='ml-3 text-sm lg:text-base font-bold text-black cursor-pointer'>{price.toFixed(2)} €</p>
 								</div>
