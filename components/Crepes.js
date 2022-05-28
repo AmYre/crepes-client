@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import Supplements from './Supplements';
 
 const Crepes = () => {
-	const { crepes, setCrepes, currentCrepe, setCurrentCrepe, supplements, setSupplements, suppls, setSuppls, numberSuppls, setNumberSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, randomNumber, modal, setModal, total, setTotal } = useGlobalContext();
+	const { crepes, setCrepes, currentCrepe, setCurrentCrepe, supplements, setSupplements, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, randomNumber, modal, setModal, total, setTotal } = useGlobalContext();
 
 	const router = useRouter();
 	const [createOrder, { data: newOrderData }] = useMutation(CREATE_ORDER);
@@ -30,7 +30,7 @@ const Crepes = () => {
 		} else setWarning(name);
 	};
 
-	const addCrepe = (name, price) => {
+	const addCrepe = (name, price, url) => {
 		setCurrentCrepe(name);
 		setOrder([
 			...order,
@@ -38,6 +38,7 @@ const Crepes = () => {
 				uid: name + order?.filter((crepe) => crepe.name == name).length,
 				name,
 				price,
+				url,
 				suppls,
 			},
 		]);

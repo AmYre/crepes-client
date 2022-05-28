@@ -2,7 +2,7 @@
 	"name": "my-app",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
+		"dev": "cross-env NODE_OPTIONS='--inspect' next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
@@ -16,6 +16,7 @@
 		"@mantine/next": "^4.2.2",
 		"@stripe/stripe-js": "^1.22.0",
 		"axios": "^0.26.0",
+		"cross-env": "^7.0.3",
 		"framer-motion": "^6.3.3",
 		"graphql": "^16.3.0",
 		"micro": "^9.3.4",
