@@ -4,7 +4,7 @@ import { ChevronRightIcon } from '@heroicons/react/solid';
 import getStripe from '../hooks/utils/getStripe';
 
 const BottomBar = () => {
-	const { totalSuppls, setTotalSuppls, order, setOrder } = useGlobalContext();
+	const { totalSuppls, order } = useGlobalContext();
 
 	const handleCheckout = async () => {
 		const stripe = await getStripe();
@@ -28,7 +28,7 @@ const BottomBar = () => {
 	return (
 		<div className='w-full fixed bottom-bar bg-white text-black flex justify-between items-center rounded-full px-4 py-4 pb-10 mt-8'>
 			<div className='text-xl'>
-				Total :{' '}
+				Total :
 				<span className='font-bold'>
 					{(
 						order.reduce((acc, curr) => {

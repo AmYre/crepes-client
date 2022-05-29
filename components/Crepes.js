@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Supplements from './Supplements';
 
 const Crepes = () => {
-	const { crepes, setCrepes, currentCrepe, setCurrentCrepe, suppls, setSuppls, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, modal, setModal } = useGlobalContext();
+	const { crepes, currentCrepe, setCurrentCrepe, totalSuppls, setTotalSuppls, supplPrice, order, setOrder, modal, setModal } = useGlobalContext();
 
 	const [warning, setWarning] = useState(false);
 	const [currentCrepeImg, setCurrentCrepeImg] = useState();
@@ -32,7 +32,7 @@ const Crepes = () => {
 				name,
 				price,
 				url,
-				suppls,
+				suppls: {},
 			},
 		]);
 	};

@@ -8,7 +8,6 @@ const AppProvider = ({ children }) => {
 	const [currentCrepe, setCurrentCrepe] = useState();
 	const [supplements, setSupplements] = useState();
 	const [supplPrice, setSupplPrice] = useState();
-	const [suppls, setSuppls] = useState({});
 	const [totalSuppls, setTotalSuppls] = useState({});
 	const [order, setOrder] = useState([]);
 	const [modal, setModal] = useState(false);
@@ -90,8 +89,6 @@ const AppProvider = ({ children }) => {
 				setOrder,
 				modal,
 				setModal,
-				suppls,
-				setSuppls,
 			}}>
 			{children}
 		</AppContext.Provider>

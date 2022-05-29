@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Switch } from '@mantine/core';
 
 const Supplements = ({ currentCrepe, i }) => {
-	const { supplements, setSupplements, totalSuppls, setTotalSuppls, supplPrice, setSupplPrice, order, setOrder, modal, setModal } = useGlobalContext();
+	const { supplements, totalSuppls, setTotalSuppls, supplPrice, order, setOrder, modal, setModal } = useGlobalContext();
 	const uid = currentCrepe + i;
 
 	const handleChange = (e) => {
