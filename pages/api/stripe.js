@@ -28,7 +28,8 @@ export default async function handler(req, res) {
 			qtty: Math.round(Object.values(totalSuppls).reduce((a, b) => a + b) / 0.7),
 		};
 
-		const formattedOrder = { ...groupedOrder, groupedSuppls };
+		const formattedOrder = groupedSuppls.qtty == 0 ? { ...groupedOrder } : { ...groupedOrder, groupedSuppls };
+
 		const finalOrder = Object.values(formattedOrder);
 
 		try {

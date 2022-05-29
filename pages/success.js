@@ -8,7 +8,6 @@ const success = () => {
 	const [loaded, setLoaded] = useState(false);
 	const router = useRouter();
 	const { session_id } = router.query;
-	console.log(session_id);
 
 	useEffect(() => {
 		session_id &&
