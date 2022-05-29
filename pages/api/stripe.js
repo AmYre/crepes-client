@@ -32,7 +32,6 @@ export default async function handler(req, res) {
 		const finalOrder = Object.values(formattedOrder);
 
 		try {
-			// Create Checkout Sessions from body params.
 			const session = await stripe.checkout.sessions.create({
 				submit_type: 'pay',
 				mode: 'payment',
@@ -51,7 +50,7 @@ export default async function handler(req, res) {
 						quantity: crepe.name !== 'Supplements' ? groupedCrepes[crepe.name].length : crepe.qtty,
 					};
 				}),
-				success_url: `${req.headers.origin}/?success=true`,
+				success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
 				cancel_url: `${req.headers.origin}/?canceled=true`,
 			});
 			res.status(200).json(session);
