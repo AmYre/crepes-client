@@ -21,6 +21,10 @@ const BottomBar = () => {
 
 		const data = await response.json();
 
+		if (typeof window !== 'undefined') {
+			localStorage.setItem('order', JSON.stringify(order));
+		}
+
 		//add feedback UI here to redirecting... for example
 		stripe.redirectToCheckout({ sessionId: data.id });
 	};
